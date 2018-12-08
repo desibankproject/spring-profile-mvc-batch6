@@ -14,15 +14,13 @@
 
 <div class="container">
   <h2>Learning Spring 5.x MVC!</h2>
-  <img src="images/1.jpg" style="height: 130px;">
+  <img src="${pageContext.request.contextPath}/images/1.jpg" style="height: 130px;">
   
-  <form action="save-review-profile" method="post">
+  <form action="${pageContext.request.contextPath}/save-review-profile" method="post">
   
   <p>User Profile Review Page</p>            
   <table class="table table-bordered">
     <tbody>
-    		
-    	
       <tr style="background-color: fuchsia;">
         <td>Name</td>
         <td>Email</td>
@@ -39,7 +37,13 @@
          <td>${customer.gender}</td>
        <td>${customer.city}</td>
             <td><img src="${customer.photo}" style="height: 100px;"/>
-             <a href="${pageContext.request.contextPath}/deleteCustomer?email=${customer.email}"><img src="${pageContext.request.contextPath}/images/delete.png"></a>
+             <a href="${pageContext.request.contextPath}/deleteCustomer?email=${customer.email}">
+             <img src="${pageContext.request.contextPath}/images/delete.png"></a>
+             /
+             <a href="${pageContext.request.contextPath}/editCustomer?email=${customer.email}">
+             <img src="${pageContext.request.contextPath}/images/edit.png"></a>
+             
+             
             </td>
       </tr>
       </c:forEach>
@@ -48,7 +52,7 @@
       
         <tr>
         <td>
-        <a href="addProfile.jsp">
+        <a href="${pageContext.request.contextPath}/add-profile">
         <button type="button" class="btn btn-danger btn-lg">Back!</button>
         </a>
         </td>

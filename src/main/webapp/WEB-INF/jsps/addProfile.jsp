@@ -1,3 +1,5 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="duy"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,8 +15,8 @@
 
 <div class="container">
   <h2>Learning Spring 5.x MVC!</h2>
-  <img src="images/1.jpg" style="height: 130px;">
-  <form action="add-profile" method="post">
+  <img src="${pageContext.request.contextPath}/images/1.jpg" style="height: 130px;">
+  <form action="${pageContext.request.contextPath}/add-profile" method="post">
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
@@ -28,9 +30,9 @@
      <div class="form-group">
       <label for="gender">Gender:</label>
        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-       <label><input type="radio"  name="gender" checked>Male</label>
+       <label><input type="radio"  name="gender" checked value="Male">Male</label>
         &nbsp; &nbsp;
-         <label><input type="radio" name="gender">Female</label>
+         <label><input type="radio" name="gender" value="Female">Female</label>
     </div>
        <hr/>
     
@@ -42,10 +44,9 @@
      <div class="form-group">
       <label for="city">City:</label>
       <select class="form-control" id="city"  name="city" style="width: 50%;">
-      	<option>Fremont</option>
-      	<option>Oakland</option>
-      	<option>Chennai</option>
-      	<option>Delhi</option>
+        <c:forEach items="${cities}" var="pitem">
+      			<option>${pitem}</option>
+      	</c:forEach>
       </select>
     </div>
     
@@ -56,6 +57,10 @@
     
     
     <button type="submit" class="btn btn-primary btn-lg">Submit!</button>
+    <a href="${pageContext.request.contextPath}/">
+        <button type="button" class="btn btn-warning btn-lg">Show Customers!</button>
+        
+        </a>
   </form>
 </div>
 

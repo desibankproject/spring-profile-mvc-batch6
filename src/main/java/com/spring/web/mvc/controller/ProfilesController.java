@@ -2,16 +2,17 @@ package com.spring.web.mvc.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.spring.web.mvc.controller.model.Profile;
 import com.spring.web.mvc.model.Customer;
 import com.spring.web.mvc.service.CustomerService;
+import com.spring.web.mvc.service.ICityService;
 
 @Controller
 public class ProfilesController {
@@ -19,59 +20,77 @@ public class ProfilesController {
 	@Autowired
 	private CustomerService customerService;
 	
+	@Autowired
+	private ICityService cityService;
+	
+	
+	@GetMapping("/editCustomer")
+	public String editCustomer(@RequestParam("email") String email,Model model){
+		//String email=request.getParameter("email");
+		Customer customer=customerService.findCustomerByEmail(email);
+		//Here we are mapping customer object with customerForm
+		model.addAttribute("customerForm", customer);
+		return "editProfile"; //welcome.jsp
+	}
+	
+	
 	@GetMapping("/deleteCustomer")
-	public String deleteCustomer(HttpServletRequest request){
-		String email=request.getParameter("email");
+	public String deleteCustomer(@RequestParam("email") String email,Model model){
+		//String email=request.getParameter("email");
 		customerService.deleteCustomerByEmail(email);
-		
 		//Show remaining data now
+		///List<Customer> customers=customerService.getCustomers();
+		//model.addAttribute("customers",customers);
+		return "redirect:/show-data"; //welcome.jsp
+	}
+	
+	@GetMapping({"/show-data","/"})//alias
+	public String showData(Model model){
 		List<Customer> customers=customerService.getCustomers();
-		request.setAttribute("customers",customers);
+		model.addAttribute("customers",customers);
 		return "showCustomers"; //welcome.jsp
 	}
 	
-	@GetMapping("/show-data")
-	public String showData(HttpServletRequest request){
-		List<Customer> customers=customerService.getCustomers();
-		request.setAttribute("customers",customers);
-		return "showCustomers"; //welcome.jsp
+	@GetMapping("/add-profile")
+	public String showProfilePage(){
+		return "addProfile"; // /WEB-INF/jsps/addProfile.jsp
 	}
-	
-	
 	
 	@PostMapping("/add-profile")
-	public String addProfile(HttpServletRequest request){
-		String name=request.getParameter("name");
+	public String addProfile(@ModelAttribute Customer customer,Model model){
+		/*String name=request.getParameter("name");
 		String email=request.getParameter("email");
 		String gender=request.getParameter("gender");
 		String mobile=request.getParameter("mobile");
 		String city=request.getParameter("city");
-		String photo=request.getParameter("photo");
-		
-		Profile profile=new Profile(name, email, gender, city, mobile,photo);
-		request.setAttribute("profile",profile);
+		String photo=request.getParameter("photo");*/
+		//Profile profile=new Profile(name, email, gender, city, mobile,photo);
+		model.addAttribute("profile",customer);
 		return "reviewProfile"; //welcome.jsp
 	}
 	
 	
 	@PostMapping("/save-review-profile")
-	public String saveReviewProfile(HttpServletRequest request){
-		String name=request.getParameter("name");
-		String email=request.getParameter("email");
-		String gender=request.getParameter("gender");
-		String mobile=request.getParameter("mobile");
-		String city=request.getParameter("city");
-		String photo=request.getParameter("photo");
-		
+	public String saveReviewProfile(@ModelAttribute Customer customer,Model model){
+		//String name=request.getParameter("name");
+		//String email=request.getParameter("email");
+		//String gender=request.getParameter("gender");
+		///String mobile=request.getParameter("mobile");
+		//String city=request.getParameter("city");
+		//String photo=request.getParameter("photo");
 		//Profile profile=new Profile(name, email, gender, city, mobile,photo);
-		Customer customer = new Customer(name, email, gender, city, mobile,photo);
+		//Customer customer = new Customer(name, email, gender, city, mobile,photo);
 		///Here we have to write code to save data into database
 		customerService.save(customer);
-		
-		
 		//request.setAttribute("profile",profile);
 		List<Customer> customers=customerService.getCustomers();
-		request.setAttribute("customers",customers);
+		model.addAttribute("customers",customers);
 		return "showCustomers"; //welcome.jsp
+	}
+	
+	@ModelAttribute("cities") // all the return cities are added inside request scope with this key = "cities"
+	public List<String> loadCities(){
+		List<String> pcities=cityService.findCities();
+		return pcities;
 	}
 }

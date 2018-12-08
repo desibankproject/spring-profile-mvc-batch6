@@ -32,6 +32,14 @@ public class CustomerService {
 	public String deleteCustomerByEmail(String email){
 		return customerDao.deleteCustomerByEmail(email);
 	}
+	
+	public Customer findCustomerByEmail(String email){
+		CustomerEntity customerEntity=customerDao.findCustomerByEmail(email);
+		Customer customer=new Customer();
+		BeanUtils.copyProperties(customerEntity, customer);
+		return customer;
+		
+	}
 
 	public List<Customer> getCustomers() {
 		List<Customer> customersList=new ArrayList<Customer>();

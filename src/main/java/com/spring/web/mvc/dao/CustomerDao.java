@@ -21,11 +21,17 @@ public class CustomerDao {
 
 	public void save(CustomerEntity customer){
 		System.out.println("Before saving\n");
-		String sql="insert into customer_tbl values(?,?,?,?,?,?)";
+		String sql="insert into customer_tbl(name,email,gender,mobile,photo,city) values(?,?,?,?,?,?)";
 		Object data[] = new Object[]{customer.getName(),customer.getEmail(),customer.getGender(),customer.getMobile(),customer.getPhoto(),customer.getCity()};
 		System.out.println(jdbcTemplate);
 		jdbcTemplate.update(sql,data);	
 		System.out.println("Completed saving");
+	}
+	
+	public CustomerEntity findCustomerByEmail(String email){
+		String sql="select sno,name,email,gender,mobile,photo,city from customer_tbl where email=?";
+		CustomerEntity customerEntity=(CustomerEntity)jdbcTemplate.queryForObject(sql,new Object[]{email},new BeanPropertyRowMapper(CustomerEntity.class));	
+		return customerEntity;
 	}
 	
 	public String deleteCustomerByEmail(String email){
@@ -36,7 +42,7 @@ public class CustomerDao {
 	
 	public List<CustomerEntity> getCustomers(){
 		List<CustomerEntity> customerList = new ArrayList<CustomerEntity>();
-		String sql="select name,email,gender,mobile,photo,city from customer_tbl";
+		String sql="select sno,name,email,gender,mobile,photo,city from customer_tbl";
 		customerList=jdbcTemplate.query(sql, new BeanPropertyRowMapper(CustomerEntity.class));	
 		return customerList;
 	}

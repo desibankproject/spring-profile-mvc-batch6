@@ -13,9 +13,9 @@
 
 <div class="container">
   <h2>Learning Spring 5.x MVC!</h2>
-  <img src="images/1.jpg" style="height: 130px;">
+  <img src="${pageContext.request.contextPath}/images/1.jpg" style="height: 130px;">
   
-  <form action="save-review-profile" method="post">
+  <form action="${pageContext.request.contextPath}/save-review-profile" method="post">
   
   <p>User Profile Review Page</p>            
   <table class="table table-bordered">
@@ -67,7 +67,12 @@
       
         <tr>
         <td><button type="button" class="btn btn-danger btn-lg">Back!</button></td>
-        <td align="right"><button type="submit" class="btn btn-primary btn-lg">Save!</button></td>
+        <td align="right"><button type="submit" class="btn btn-primary btn-lg">Save!</button>
+        
+        <a href="${pageContext.request.contextPath}/">
+        <button type="button" class="btn btn-primary btn-lg">Show Customers!</button>
+        
+        </a></td>
       </tr>
       
     </tbody>
