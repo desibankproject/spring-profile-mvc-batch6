@@ -10,20 +10,58 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  
+  <script>
+  		
+  		function clearText(){
+  			document.getElementById("emessage").innerHTML="";
+  		}	
+        //creating function in JavaScript!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  		function validateForm(){
+        	var pname=window.document.customerForm.name.value;
+        	if(pname.length==0){
+        		document.getElementById("emessage").innerHTML="Sorry! name cannot be empty!";
+        		window.document.customerForm.name.focus();
+        		return;
+        	}
+        	
+        	var pemail=window.document.customerForm.email.value;
+        	if(pemail.length==0){
+        		document.getElementById("emessage").innerHTML="Sorry! email cannot be empty!";
+        		window.document.customerForm.email.focus();
+        		return;
+        	}
+        	
+        	var pmobile=window.document.customerForm.mobile.value;
+        	if(pmobile.length==0){
+        		document.getElementById("emessage").innerHTML="Sorry! mobile cannot be empty!";
+        		window.document.customerForm.mobile.focus();
+        		return;
+        	}
+        	//Now we have to submit form using JavaScript!!!!!!!!!!
+        	document.customerForm.submit();
+  		}
+  </script>
+  
 </head>
 <body>
 
 <div class="container">
-  <h2>Learning Spring 5.x MVC!</h2>
+  <h2>Learning Spring 5.x MVC!!!!!!!!!!!!!!!!!!!!!!!</h2>
   <img src="${pageContext.request.contextPath}/images/1.jpg" style="height: 130px;">
-  <form action="${pageContext.request.contextPath}/add-profile" method="post">
+  <form name="customerForm" action="${pageContext.request.contextPath}/add-profile" method="post">
+  <br/>
+       <span class="alert alert-danger" id="emessage">
+      </span>
+      <hr/>
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name">
+      <input type="text" class="form-control" id="name" placeholder="Enter Name" name="name" onkeydown="clearText();">
     </div>
     <div class="form-group">
       <label for="email">Email:</label>
-      <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email">
+      <input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" onkeydown="clearText()";>
+      	
     </div>
     
     <hr/>
@@ -38,7 +76,7 @@
     
      <div class="form-group">
       <label for="Mobile">Mobile:</label>
-      <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile" name="mobile">
+      <input type="text" class="form-control" id="mobile" placeholder="Enter Mobile" name="mobile" onkeydown="clearText()">
     </div>
     
      <div class="form-group">
@@ -56,7 +94,7 @@
     </div>
     
     
-    <button type="submit" class="btn btn-primary btn-lg">Submit!</button>
+    <button type="button" class="btn btn-primary btn-lg" onclick="validateForm();">Submit!</button>
     <a href="${pageContext.request.contextPath}/">
         <button type="button" class="btn btn-warning btn-lg">Show Customers!</button>
         

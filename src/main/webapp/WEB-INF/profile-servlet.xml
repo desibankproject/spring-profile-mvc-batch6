@@ -17,6 +17,7 @@
 	  	picture for these resources
 	  -->
 	 <mvc:resources mapping="/images/**" location="/images/" />
+	 <mvc:resources mapping="/static/**" location="/static/" />
 
 	<!-- This is enabling this annotation = @GetMapping,
 	@PostMapping
