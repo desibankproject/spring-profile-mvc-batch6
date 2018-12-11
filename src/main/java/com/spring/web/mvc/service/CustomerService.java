@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.spring.web.mvc.controller.model.Login;
 import com.spring.web.mvc.dao.CustomerDao;
 import com.spring.web.mvc.dao.entity.CustomerEntity;
+import com.spring.web.mvc.dao.entity.LoginEntity;
 import com.spring.web.mvc.model.Customer;
 
 @Service("CustomerService")
@@ -21,6 +23,12 @@ public class CustomerService {
 
 	public void setCustomerDao(CustomerDao customerDao) {
 		this.customerDao = customerDao;
+	}
+	
+	public String validateUser(Login login){
+		LoginEntity entity=new LoginEntity();
+		BeanUtils.copyProperties(login, entity);
+		return customerDao.validateUser(entity);
 	}
 
 	public void save(Customer customer) {

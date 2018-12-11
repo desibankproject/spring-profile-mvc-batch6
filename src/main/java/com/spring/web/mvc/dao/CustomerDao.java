@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.spring.web.mvc.dao.entity.CustomerEntity;
+import com.spring.web.mvc.dao.entity.LoginEntity;
 
 
 @Repository("CustomerDao")
@@ -18,6 +19,17 @@ public class CustomerDao {
 	@Autowired
 	@Qualifier("pjdbcTemplate")
 	private JdbcTemplate jdbcTemplate;
+	
+	public String validateUser(LoginEntity entity){
+		System.out.println("Before saving\n");
+		String sql="select  username from logins_tbl where username=? and password=?";
+		try {
+			jdbcTemplate.queryForObject(sql,new Object[]{entity.getUsername(),entity.getPassword()},new BeanPropertyRowMapper(LoginEntity.class));	
+		}catch(Exception ex){
+			return "fail";
+		}
+		return "success";
+	}
 
 	public void save(CustomerEntity customer){
 		System.out.println("Before saving\n");

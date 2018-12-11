@@ -75,6 +75,31 @@
 		</dependency>
 		
 		
+		<!-- Add below jar to generate json response from spring mvc -->
+			<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			 <version>1.9.13</version>
+		</dependency>
+		
+			<!-- Used to generate JSON response -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			  <version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			  <version>2.9.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			  <version>2.9.0</version>
+		</dependency>
+		
+		
   </dependencies>
   
   
