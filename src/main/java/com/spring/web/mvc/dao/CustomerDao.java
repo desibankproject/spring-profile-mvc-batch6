@@ -49,7 +49,7 @@ public class CustomerDao {
 	public String deleteCustomerByEmail(String email){
 		String sql="delete from  customer_tbl where email=?";
 		int row=jdbcTemplate.update(sql, new Object[]{email});	
-		return "deleted";
+		return row>0?"deleted":"fail";
 	}
 	
 	public List<CustomerEntity> getCustomers(){

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.spring.web.mvc.controller.model.ApplicationResponse;
 import com.spring.web.mvc.model.Customer;
 import com.spring.web.mvc.service.CustomerService;
 import com.spring.web.mvc.service.ICityService;
@@ -33,6 +35,20 @@ public class ProfilesController {
 		return "editProfile"; //welcome.jsp
 	}
 	
+	@GetMapping("/jdeleteCustomer")
+	@ResponseBody
+	public ApplicationResponse jdeleteCustomer(@RequestParam("email") String email,Model model){
+		//String email=request.getParameter("email");
+		String status=customerService.deleteCustomerByEmail(email);
+		//Show remaining data now
+		///List<Customer> customers=customerService.getCustomers();
+		//model.addAttribute("customers",customers);
+		//return "redirect:/show-data"; //welcome.jsp
+		ApplicationResponse applicationResponse=new ApplicationResponse();
+		applicationResponse.setMessage("Hey record is deleted with email = "+email);
+		applicationResponse.setStatus(status);
+		return applicationResponse;
+	}
 	
 	@GetMapping("/deleteCustomer")
 	public String deleteCustomer(@RequestParam("email") String email,Model model){
@@ -54,6 +70,18 @@ public class ProfilesController {
 	@GetMapping("/add-profile")
 	public String showProfilePage(){
 		return "addProfile"; // /WEB-INF/jsps/addProfile.jsp
+	}
+	
+	@PostMapping("/edit-profile")
+	@ResponseBody public ApplicationResponse editProfile(@ModelAttribute Customer customer,Model model){
+		System.out.println("____updating customer data");
+		System.out.println(customer);
+		//We will code to update customer into the database
+		model.addAttribute("profile",customer);
+		ApplicationResponse applicationResponse=new ApplicationResponse();
+		applicationResponse.setMessage("Hey record is updated successfully with email = "+customer.getEmail());
+		applicationResponse.setStatus("success");
+		return applicationResponse;
 	}
 	
 	@PostMapping("/add-profile")
