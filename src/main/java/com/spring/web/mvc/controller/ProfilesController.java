@@ -73,14 +73,14 @@ public class ProfilesController {
 	}
 	
 	@PostMapping("/edit-profile")
-	@ResponseBody public ApplicationResponse editProfile(@ModelAttribute Customer customer,Model model){
+	@ResponseBody public ApplicationResponse editProfile(@ModelAttribute Customer customer){
 		System.out.println("____updating customer data");
 		System.out.println(customer);
 		//We will code to update customer into the database
-		model.addAttribute("profile",customer);
+		String status=customerService.updateCustomer(customer);
 		ApplicationResponse applicationResponse=new ApplicationResponse();
 		applicationResponse.setMessage("Hey record is updated successfully with email = "+customer.getEmail());
-		applicationResponse.setStatus("success");
+		applicationResponse.setStatus(status);
 		return applicationResponse;
 	}
 	

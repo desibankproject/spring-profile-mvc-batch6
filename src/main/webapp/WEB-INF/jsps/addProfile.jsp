@@ -12,6 +12,39 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   
   <script>
+  
+  		$(document).ready(function(){
+  			
+  			$('#tphoto').change(function() {
+  				var file = this.files[0]; //reading the selected file
+  				getBase64(file)
+  				.then(function (data) {
+  					// data = base64 encoded image 
+  					 $('#photo').val(data);
+  					//<img src="" id="review-photo"  style="height: 80px;">
+  					$('#review-photo').attr('src', data);
+  				}).catch(function (e) {
+  					alert(e);
+  				});
+  			});
+  			
+  			
+  		});	
+
+  		//This will give you select file into base64 encoding
+  		//file - file to be converted!
+		function getBase64(file) {
+			return new Promise(function (resolve, reject) {
+				const reader = new FileReader();
+				reader.readAsDataURL(file);
+				reader.onload = function() {
+					resolve(reader.result);
+				};
+				reader.onerror = function(error) {
+					reject(error);
+				};
+			});
+		}
   		
   		function clearText(){
   			document.getElementById("emessage").innerHTML="";
@@ -90,7 +123,9 @@
     
      <div class="form-group">
       <label for="photo">Photo:</label>
-      <input type="text" class="form-control" id="photo"  name="photo">
+      <input type="file" class="form-control" id="tphoto"  name="tphoto" style="width: 35%;display: inline;">
+       <input type="hidden" id="photo"  name="photo" style="width: 35%;display: inline;">
+       <img src="" id="review-photo"  style="height: 80px;">
     </div>
     
     

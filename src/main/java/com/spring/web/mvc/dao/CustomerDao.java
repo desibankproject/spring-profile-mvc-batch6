@@ -30,6 +30,14 @@ public class CustomerDao {
 		}
 		return "success";
 	}
+	
+	public String updateCustomer(CustomerEntity customer){
+		System.out.println("Before Updating\n");
+		String sql="update customer_tbl set name=?,gender=?,mobile=?,city=?,photo=? where email=?";
+		Object data[] = new Object[]{customer.getName(),customer.getGender(),customer.getMobile(),customer.getCity(),customer.getPhoto(),customer.getEmail()};
+		jdbcTemplate.update(sql,data);	
+		return "success";
+	}
 
 	public void save(CustomerEntity customer){
 		System.out.println("Before saving\n");

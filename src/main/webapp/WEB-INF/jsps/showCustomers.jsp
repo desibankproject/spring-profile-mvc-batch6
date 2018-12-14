@@ -11,8 +11,22 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
   
    <script type="text/javascript">
-   			
+   			 var erowobj="";
    			$(document).ready(function(){
+   				
+   				$('#tphoto').change(function() {
+   	  				var file = this.files[0]; //reading the selected file
+   	  				getBase64(file)
+   	  				.then(function (data) {
+   	  					// data = base64 encoded image 
+   	  					 $('#photo').val(data);
+   	  					//<img src="" id="review-photo"  style="height: 80px;">
+   	  					$('#review-photo').attr('src', data);
+   	  				}).catch(function (e) {
+   	  					alert(e);
+   	  				});
+   	  			});
+   				
    				$("#editConfirmBtn").click(function(){
 					alert("@()@(@(@(@(@()))))"); 
 					//Here we have to write code to send popup form data to the controller
@@ -28,12 +42,44 @@
 						dataType: 'json', //I want json response
 						success: function(data){
 							//below line will close the popup
-							$("#editCustomerModel").modal("hide");	
-						}
+							if(data.status=="success"){
+								//Please write code to update the particular row
+								erowobj.find('[tdname=name]').html($("#name").val());
+								erowobj.find('[tdname=email]').html($("#email").val());
+								erowobj.find('[tdname=gender]').html($("#gender").val());
+								erowobj.find('[tdname=mobile]').html($("#mobile").val());
+								erowobj.find('[tdname=city]').html($("#city").val());
+								erowobj.find('[tdname=rowphoto]').attr("src",$("#photo").val());
+								
+								$("#editCustomerModel").modal("hide");	
+								
+							}else{
+								alert("Sorry! data could not be updated!!!!!!!!!!!!!!");
+							}
+						},
+						 error: function (textStatus, errorThrown) {
+				                Success = false;//doesnt goes here
+				         }
 					});	
 					console.log(pdata);
    				});
    			});	
+   			
+   			
+   		//This will give you select file into base64 encoding
+   	  		//file - file to be converted!
+   			function getBase64(file) {
+   				return new Promise(function (resolve, reject) {
+   					const reader = new FileReader();
+   					reader.readAsDataURL(file);
+   					reader.onload = function() {
+   						resolve(reader.result);
+   					};
+   					reader.onerror = function(error) {
+   						reject(error);
+   					};
+   				});
+   			}
    	
    			function deleteRow(email,name){
    				//http://localhost:444/spring-profile-mvc/jdeleteCustomer?email=nahshsh@gmail.com
@@ -49,20 +95,23 @@
    			function showEditModal(email,name){
    				//below line gives you reference row object to be edited
    				var customerRow=$("#"+name);
+   				//storing reference of current row inside a globle variable!@
+   				erowobj=customerRow;
    				var tname=customerRow.find('[tdname=name]').html();
    				var temail=customerRow.find('[tdname=email]').html();
    				var tmobile=customerRow.find('[tdname=mobile]').html();
    				var tgender=customerRow.find('[tdname=gender]').html();
    				var tcity=customerRow.find('[tdname=city]').html();
-   				var imagepath=$("#"+name+"_imageicon").attr("src");//<img id="nae_imageicon" src="ahah.jpg"> 
+   				//
+   				var imageValue=customerRow.find('[tdname=rowphoto]').attr("src");
+   				
    				//setting name field inside the modal name
    				$("#name").val(tname);
    				$("#email").val(temail);
    				$("#mobile").val(tmobile);
    				$("#gender").val(tgender);
    				$("#city").val(tcity);
-   				$("#review-photo").attr("src",imagepath);//<img id="review-photo" src="ahah.jpg"> 
-   				alert(tname);
+   				$("#review-photo").attr("src",imageValue);//<img id="review-photo" src="ahah.jpg"> 
    				$("#editCustomerModel").modal("show");		
    			}
    </script>
@@ -94,7 +143,8 @@
         <td tdname="mobile">${customer.mobile}</td>
          <td tdname="gender">${customer.gender}</td>
        <td tdname="city">${customer.city}</td>
-            <td><img id="${customer.name}_imageicon" src="${customer.photo}" style="height: 100px;"/>
+            <td>
+            <img tdname="rowphoto" id="${customer.name}_imageicon" src="${customer.photo}" style="height: 100px;"/>
              <a href="javascript:deleteRow('${customer.email}','${customer.name}');">
              <img  src="${pageContext.request.contextPath}/images/delete.png"></a>
              /
@@ -144,7 +194,7 @@
 						<div class="form-group">
 							<label for="email">Email:</label> <input type="email"
 								class="form-control" id="email" placeholder="Enter Email"
-								name="email" value="">
+								name="email" value="" readonly="readonly">
 						</div>
 						<div class="form-group">
 							<label for="gender">Gender:</label> <br>
@@ -164,10 +214,14 @@
 							<label for="photo">Photo:</label> <br> 
 							<img
 								id="review-photo" alt="customer photo"
-								src="${pageContext.request.contextPath}/images/dummy.jpg"
-								style="height: 100px;"> <br> <input type="file"
-								class="form-control-file" id="photo" accept="image/*"> <input
-								id="hiddenPhoto" name="photo" type="hidden"
+								src=""
+								style="height: 100px;"> <br>
+								
+								 <input type="file"
+								class="form-control-file" id="tphoto" accept="image/*"> 
+								
+								<input
+								id="photo" name="photo" type="hidden"
 								value="">
 						</div>
 						<div class="form-group">

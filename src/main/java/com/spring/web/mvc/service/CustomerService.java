@@ -30,6 +30,12 @@ public class CustomerService {
 		BeanUtils.copyProperties(login, entity);
 		return customerDao.validateUser(entity);
 	}
+	
+	public String updateCustomer(Customer customer){
+		CustomerEntity entity=new CustomerEntity();
+		BeanUtils.copyProperties(customer, entity);
+		return customerDao.updateCustomer(entity);
+	}
 
 	public void save(Customer customer) {
 		CustomerEntity entity=new CustomerEntity();

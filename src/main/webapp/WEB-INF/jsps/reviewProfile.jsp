@@ -59,9 +59,13 @@
       
          <tr>
         <td>Photo</td>
-        <td> <img src="${profile.photo}" style="height: 130px;">
+        <td> 
+        
+        
+        <img src="${profile.photo}" style="height: 130px;">
         
          <input type="hidden" value="${profile.photo}" name="photo"/>
+         
         </td>
       </tr>
       

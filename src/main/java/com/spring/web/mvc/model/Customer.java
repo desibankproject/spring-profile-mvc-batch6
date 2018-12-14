@@ -73,8 +73,9 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "Profile [name=" + name + ", email=" + email + ", gender=" + gender + ", city=" + city + ", mobile="
-				+ mobile + "]";
+		return "Customer [name=" + name + ", email=" + email + ", gender=" + gender + ", city=" + city + ", mobile="
+				+ mobile + ", photo=" + photo + "]";
 	}
+
 
 }
