@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.web.mvc.controller.model.Login;
 import com.spring.web.mvc.dao.CustomerDao;
@@ -15,6 +17,7 @@ import com.spring.web.mvc.dao.entity.CustomerEntity;
 import com.spring.web.mvc.dao.entity.LoginEntity;
 import com.spring.web.mvc.model.Customer;
 
+//@Transactional(propagation=Propagation.REQUIRED)
 @Service("CustomerService")
 public class CustomerService implements ICustomerService {
 
