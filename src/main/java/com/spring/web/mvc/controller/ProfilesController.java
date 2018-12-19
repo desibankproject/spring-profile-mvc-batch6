@@ -40,7 +40,7 @@ public class ProfilesController {
 	public ApplicationResponse jdeleteCustomer(@RequestParam("email") String email,Model model){
 		//String email=request.getParameter("email");
 		String status=customerService.deleteCustomerByEmail(email);
-		//Show remaining data now
+		//how remaining data now
 		///List<Customer> customers=customerService.getCustomers();
 		//model.addAttribute("customers",customers);
 		//return "redirect:/show-data"; //welcome.jsp

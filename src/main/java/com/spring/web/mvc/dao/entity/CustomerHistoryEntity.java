@@ -8,8 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="customer_tbl")
-public class CustomerEntity {
+@Table(name="customer_history_tbl")
+public class CustomerHistoryEntity {
+	
 	private int cid;
 	private String name;
 	private String email;
@@ -17,7 +18,6 @@ public class CustomerEntity {
 	private String city;
 	private String mobile;
 	private String photo;
-	
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
