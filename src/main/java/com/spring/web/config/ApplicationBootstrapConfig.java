@@ -13,7 +13,7 @@ public class ApplicationBootstrapConfig extends AbstractAnnotationConfigDispatch
 	//This will create spring root container //context loader listener
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
-		return null;
+		return new Class[] { SpringRootConfig.class };
 	}
 
 	//This will create spring root container //dispatcher servlet
