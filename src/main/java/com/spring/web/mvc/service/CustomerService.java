@@ -54,6 +54,11 @@ public class CustomerService implements ICustomerService {
 	}
 	
 	@Override
+	public String deleteCustomerByCid(int cid){
+		return customerDao.deleteCustomerByCid(cid);
+	}
+	
+	@Override
 	public String deleteCustomerByEmail(String email){
 		return customerDao.deleteCustomerByEmail(email);
 	}

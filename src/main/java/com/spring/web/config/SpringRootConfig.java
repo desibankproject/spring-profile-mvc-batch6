@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
@@ -13,7 +14,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement //<tx:annotation/>
 @Configuration
-@ComponentScan(basePackages = { "com.spring.web.mvc.dao","com.spring.web.mvc.service"})
+@ComponentScan(basePackages = {"com.spring.web.mvc.advice", "com.spring.web.mvc.dao","com.spring.web.mvc.service"})
+// <aop:aspectj-autoproxy proxy-target-class="true"/>
+@EnableAspectJAutoProxy(proxyTargetClass=true)
 public class SpringRootConfig {
 	
 	

@@ -19,4 +19,6 @@ public interface ICustomerService {
 
 	String validateUser(Login login);
 
+	String deleteCustomerByCid(int cid);
+
 }

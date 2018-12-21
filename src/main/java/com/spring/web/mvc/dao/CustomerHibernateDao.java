@@ -89,6 +89,13 @@ public class CustomerHibernateDao implements ICustomerDao {
 	}
 	
 	@Override
+	public String deleteCustomerByCid(int cid){
+		CustomerEntity customerEntity=this.getSession().get(CustomerEntity.class, cid);
+		this.getSession().delete(customerEntity);
+		return "deleted";
+	}
+	
+	@Override
 	public String deleteCustomerByEmail(String email){
 		CustomerEntity customerEntity=new CustomerEntity();
 		Query query =this.getSession().createQuery("from CustomerEntity where email=?");
