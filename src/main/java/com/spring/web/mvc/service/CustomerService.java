@@ -5,36 +5,38 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.web.mvc.advice.Pusher;
 import com.spring.web.mvc.controller.model.Login;
-import com.spring.web.mvc.dao.CustomerDao;
-import com.spring.web.mvc.dao.ICustomerDao;
 import com.spring.web.mvc.dao.entity.CustomerEntity;
 import com.spring.web.mvc.dao.entity.LoginEntity;
 import com.spring.web.mvc.model.Customer;
+import com.spring.web.mvc.repository.CustomerDaoRepository;
 
-//@Transactional(propagation=Propagation.REQUIRED)
+//We have to put @Transactional annotation since we do not dao layer ..............................
+@Transactional(propagation=Propagation.REQUIRED)
 @Service("CustomerService")
 public class CustomerService implements ICustomerService {
 
 	@Autowired
-	@Qualifier("CustomerHibernateDao")
-	private ICustomerDao customerDao;
+	private CustomerDaoRepository customerDao;
 
-	
-	public void setCustomerDao(CustomerDao customerDao) {
-		this.customerDao = customerDao;
-	}
 	
 	@Pusher
 	@Override
 	public String validateUser(Login login){
-		LoginEntity entity=new LoginEntity();
-		BeanUtils.copyProperties(login, entity);
-		return customerDao.validateUser(entity);
+		/*LoginEntity entity=new LoginEntity();
+		BeanUtils.copyProperties(login, entity);*/
+		//return customerDao.validateUser(entity);
+		List<LoginEntity> loginEntities=customerDao.authUserByUsernameAndPassword(login.getUsername(), login.getPassword());
+		if(loginEntities.size()==0){
+			return "fail";
+		}else{
+			return "success";
+		}
 	}
 	
 	@Pusher
@@ -42,7 +44,8 @@ public class CustomerService implements ICustomerService {
 	public String updateCustomer(Customer customer){
 		CustomerEntity entity=new CustomerEntity();
 		BeanUtils.copyProperties(customer, entity);
-		return customerDao.updateCustomer(entity);
+		 customerDao.save(entity);
+		 return "success";
 	}
 
 	@Pusher
@@ -55,18 +58,22 @@ public class CustomerService implements ICustomerService {
 	
 	@Override
 	public String deleteCustomerByCid(int cid){
-		return customerDao.deleteCustomerByCid(cid);
+		 customerDao.deleteById(cid);
+		 return "deleted";
 	}
 	
 	@Override
 	public String deleteCustomerByEmail(String email){
-		return customerDao.deleteCustomerByEmail(email);
+		CustomerEntity customerEntity=customerDao.findByEmail(email);
+		customerDao.delete(customerEntity);
+		//return customerDao.deleteCustomerByEmail(email);
+		 return "deleted";
 	}
 	
 	@Pusher
 	@Override
 	public Customer findCustomerByEmail(String email){
-		CustomerEntity customerEntity=customerDao.findCustomerByEmail(email);
+		CustomerEntity customerEntity=customerDao.findByEmail(email);
 		Customer customer=new Customer();
 		BeanUtils.copyProperties(customerEntity, customer);
 		return customer;
@@ -78,7 +85,7 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public List<Customer> getCustomers() {
 		List<Customer> customersList=new ArrayList<Customer>();
-		List<CustomerEntity> list=customerDao.getCustomers();
+		List<CustomerEntity> list=customerDao.findAll();
 		for(CustomerEntity entity:list){
 			Customer customer=new Customer();
 			BeanUtils.copyProperties(entity, customer);

@@ -19,8 +19,8 @@ import com.spring.web.mvc.dao.entity.CustomerHistoryEntity;
 import com.spring.web.mvc.dao.entity.LoginEntity;
 
 
-@Repository("CustomerHibernateDao")
-@Transactional
+//@Repository("CustomerHibernateDao")
+//@Transactional
 public class CustomerHibernateDao implements ICustomerDao {
 	
 	@Autowired
